@@ -1,0 +1,22 @@
+# .gitignore for Flask projects
+
+# Virtual environment
+venv/
+
+# Byte-compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Backup and temporary files
+*~
+*.bak
+*.swp
+*.pyc
+
+# Environment variables file
+.env*
+
+# Google Cloud credentials file
+key.json
