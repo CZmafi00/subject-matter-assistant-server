@@ -1,18 +1,23 @@
 from flask import Flask, request, jsonify
 from langchain_google_vertexai import VertexAI
 from dotenv import load_dotenv
+from vertex_ai_tools import predict_no_context
 import os
 
 load_dotenv()
 app = Flask(__name__)
 
-@app.route('/ask', methods=['GET'])
+@app.route('/predict-no-context', methods=['POST'])
 def ask_question():
 
-    model = VertexAI(model_name="gemini-pro")
-    res = model.invoke("Hi, I would like to become student of Algebra University College in Zagreb. I am from Sweden. How can I apply?")
+    data = request.get_json()
+    query = data['query']
 
-    return res
+    prediction = predict_no_context(query)
+
+    return prediction
     
+
+
 if __name__ == '__main__':
     app.run(debug=True)
