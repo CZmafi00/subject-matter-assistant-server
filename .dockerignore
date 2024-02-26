@@ -1,0 +1,30 @@
+# .dockerignore for Flask app
+
+# Virtual environment
+venv/
+
+# Byte-compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Backup and temporary files
+*~
+*.bak
+*.swp
+*.pyc
+.notes
+
+# Docker related files
+Dockerfile
+.dockerignore
+
+# Environment variables file
+.env*
+
+# Google Cloud credentials file
+key.json
+
+# vs code files
+.vscode/
