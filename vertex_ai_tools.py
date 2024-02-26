@@ -6,47 +6,98 @@ from vertexai.language_models import ChatModel
 
 def predict_no_context(query):
     
-    model_name= os.environ.get("VERTEX_AI_PREDICT_MODEL")
+    model_name= os.environ.get("VERTEX_AI_TEXT_MODEL")
     model = VertexAI(model_name=model_name)
-    return model.invoke(query)
+
+    prediction = model.invoke(query)
+
+    return {"context": query, "answer": prediction}
 
 def predict_with_context(query):
     
-    context = _get_context(query)
+    context = _prepare_context_for_multiple_documents(query)
 
-    model_name = os.environ.get("VERTEX_AI_PREDICT_MODEL")
+    model_name = os.environ.get("VERTEX_AI_CHAT_MODEL")
     chat_model = ChatModel.from_pretrained(model_name)
 
-    chat = chat_model.start_chat(context=context)
-    answer = chat.send_message(query)
+    temperature = float(os.environ.get("VERTEX_AI_CHAT_MODEL_TEMPERATURE"))
+    top_k = int(os.environ.get("VERTEX_AI_CHAT_MODEL_TOP_K"))
+    top_p = float(os.environ.get("VERTEX_AI_CHAT_MODEL_TOP_P"))
 
-    print(answer)
+    chat = chat_model.start_chat(context=context[0], temperature=temperature, top_k=top_k, top_p=top_p)
+    prediction = chat.send_message(query)
 
-    return f"Answer: {answer.text} \n\n Context: \n{context}"
+    return {"context": [context[1]], "answer": prediction.text}
 
-def _get_context(query):
+def design_prompt(query):
 
-    model = _create_embed_model()
-    db_retriever = _create_db_retriever(model)
-    documents = db_retriever.invoke(query)
+    pg_vector_db = _create_pg_vector()
+    # https://api.python.langchain.com/en/latest/vectorstores/langchain_community.vectorstores.pgvector.PGVector.html#langchain_community.vectorstores.pgvector.PGVector.similarity_search_with_relevance_scores
+    documents = pg_vector_db.similarity_search_with_relevance_scores(query)
 
-    paragraphs = ["Answer the question only from the context. Otherwise, response with 'No Data':"]
+    documents = _filter_out_relevant_documents(documents)
+    context = ""
 
-    #TODO: Set threshold for cosine similarity and format context nicely
-    # for i in range(len(documents)):
-    #     paragraphs.append(documents[i].page_content)
+    if (len(documents) > 0):
+        context = _prepare_context_for_multiple_documents(documents)
+    else:
+        context = _prepare_context_for_no_relevant_documents(query)
 
-    paragraphs.append(documents[0].page_content)
+    return f"{context}{query}"
 
-    context = "\n\n".join(paragraphs).join("Answer the following question.")
+def _prepare_context_for_no_relevant_documents(query):
+     
+    prompt_task = os.environ.get('PROMPT_NO_CONTEXT_INPUT_TASK')
+
+    return f"{prompt_task} Upit: {query}"
+
+def _prepare_context_for_multiple_documents(documents):
+
+    prompt_task = os.environ.get('PROMPT_CONTEXT_INPUT_TASK')
+
+    relevant_docs = _filter_out_relevant_documents(documents)
+
+    context = ""
+
+    for doc in relevant_docs:
+        context += "\n\n"
+        context += doc[0].page_content
+
+    context += f"\n\n{prompt_task}"
 
     return context
+
+def _filter_out_relevant_documents(documents):
+
+    similarity_treshold = float(os.environ.get('VERTEXAI_EMBED_MODEL_RELEVANCE_TRESHOLD'))
+
+    sorted_documents = sorted(documents, key=lambda x: x[1], reverse=True)
+    filtered_documents = []
+    token_sum = 0
+
+    for doc, score in sorted_documents:
+        if token_sum + len(doc.page_content) <= 8000 and score >= similarity_treshold:
+            filtered_documents.append((doc, score))
+        
+            token_sum += len(doc.page_content)
+            
+    return filtered_documents
 
 def _create_embed_model():
     project_number = os.environ.get("GOOGLE_PROJECT_NUMBER")
     embed_model = os.environ.get("VERTEXAI_EMBED_MODEL")
     
     return VertexAIEmbeddings(project=project_number, model_name=embed_model)
+
+def _create_pg_vector():
+
+    collection=os.environ.get('PG_VECTOR_COLLECTION')
+    connection_string = _create_pg_vector_connection_string()
+    
+    embed_model = _create_embed_model()
+    db = PGVector(embedding_function=embed_model, collection_name=collection, connection_string=connection_string)
+
+    return db
 
 def _create_db_retriever(embed_model):
     collection=os.environ.get('PG_VECTOR_COLLECTION')

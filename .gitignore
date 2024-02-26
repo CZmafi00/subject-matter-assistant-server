@@ -14,9 +14,13 @@ __pycache__/
 *.bak
 *.swp
 *.pyc
+.notes
 
 # Environment variables file
 .env*
 
 # Google Cloud credentials file
 key.json
+
+# vs code files
+.vscode
