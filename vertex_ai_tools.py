@@ -7,7 +7,9 @@ from vertexai.language_models import ChatModel
 def predict_no_context(query):
     
     model_name= os.environ.get("VERTEX_AI_TEXT_MODEL")
-    model = VertexAI(model_name=model_name)
+    max_output_tokens = int(os.environ.get("VERTEX_AI_TEXT_MAX_OUTPUT_TOKENS"))
+
+    model = VertexAI(model_name=model_name, max_output_tokens=max_output_tokens)
 
     prediction = model.invoke(query)
 
