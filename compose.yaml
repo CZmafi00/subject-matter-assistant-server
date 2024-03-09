@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  subject_matter_assistant:
+    image: subject-matter-assistant-server
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=
+      - GOOGLE_PROJECT_NUMBER=
+      - VERTEX_AI_TEXT_MODEL=
+      - VERTEX_AI_CHAT_MODEL=
+      - VERTEX_AI_CHAT_MODEL_TEMPERATURE=
+      - VERTEX_AI_CHAT_MODEL_TOP_K=
+      - VERTEX_AI_CHAT_MODEL_TOP_P=
+      - VERTEXAI_EMBED_MODEL=
+      - VERTEXAI_EMBED_MODEL_RELEVANCE_TRESHOLD=
+      - PROMPT_NO_CONTEXT_INPUT_TASK=
+      - PROMPT_CONTEXT_INPUT_TASK=
+      - PG_VECTOR_PORT=
+      - PG_VECTOR_DATABASE=
+      - PG_VECTOR_COLLECTION=
+      - PG_VECTOR_USER=
+      - PG_VECTOR_PASSWORD=
+    ports:
+      - 9250:5000
+    volumes:
+      - smas_volume:/home
+volumes:
+  smas_volume:
+
+# !Note: the credentials file for google service account can be copied to the volume
+# docker cp /path/to/your/local/file subject_matter_assistant:/home
