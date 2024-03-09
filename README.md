@@ -56,26 +56,26 @@ docker compose up -d
 ### Environment Variables
 
 ```markdown
-| Variable                           | Description                                      |
-|------------------------------------|--------------------------------------------------|
+| Variable                            | Description                                      |
+|-------------------------------------|--------------------------------------------------|
 | `GOOGLE_APPLICATION_CREDENTIALS`    | Path to the Google Service Account Key JSON file |
-| `GOOGLE_PROJECT_NUMBER`             | Google Cloud Project Number                     |
-| `VERTEX_AI_TEXT_MODEL`              | Vertex AI Text Model ID                         |
+| `GOOGLE_PROJECT_NUMBER`             | Google Cloud Project Number                      |
+| `VERTEX_AI_TEXT_MODEL`              | Vertex AI Text Model ID                          |
 | `VERTEX_AI_TEXT_MAX_OUTPUT_TOKENS`  | Maximum number of output tokens for Text Model   |
-| `VERTEX_AI_TEXT_MODEL_TEMPERATURE`  | Temperature parameter for Text Model            |
+| `VERTEX_AI_TEXT_MODEL_TEMPERATURE`  | Temperature parameter for Text Model             |
 | `VERTEX_AI_TEXT_MODEL_TOP_K`        | Top-K parameter for Text Model                   |
 | `VERTEX_AI_TEXT_MODEL_TOP_P`        | Top-P parameter for Text Model                   |
-| `VERTEX_AI_CHAT_MODEL`              | Vertex AI Chat Model ID                         |
-| `VERTEX_AI_CHAT_MODEL_TEMPERATURE`  | Temperature parameter for Chat Model            |
+| `VERTEX_AI_CHAT_MODEL`              | Vertex AI Chat Model ID                          |
+| `VERTEX_AI_CHAT_MODEL_TEMPERATURE`  | Temperature parameter for Chat Model             |
 | `VERTEX_AI_CHAT_MODEL_TOP_K`        | Top-K parameter for Chat Model                   |
 | `VERTEX_AI_CHAT_MODEL_TOP_P`        | Top-P parameter for Chat Model                   |
-| `VERTEXAI_EMBED_MODEL`              | Vertex AI Embed Model ID                        |
-| `VERTEXAI_EMBED_MODEL_RELEVANCE_TRESHOLD` | Relevance threshold for Embed Model         |
-| `PROMPT_NO_CONTEXT_INPUT_TASK`      | Input task for no context prompts               |
-| `PROMPT_CONTEXT_INPUT_TASK`         | Input task for context prompts                  |
-| `PG_VECTOR_HOST`                    | PGVector database host                          |
-| `PG_VECTOR_PORT`                    | PGVector database port                          |
-| `PG_VECTOR_DATABASE`                | PGVector database name                          |
-| `PG_VECTOR_COLLECTION`              | PGVector collection name                        |
-| `PG_VECTOR_USER`                    | PGVector database user                          |
-| `PG_VECTOR_PASSWORD`                | PGVector database password                      |
+| `VERTEXAI_EMBED_MODEL`              | Vertex AI Embed Model ID                         |
+| `VERTEXAI_EMBED_MODEL_RELEVANCE_TRESHOLD` | Relevance threshold for Embed Model        |
+| `PROMPT_NO_CONTEXT_INPUT_TASK`      | Input task for no context prompts                |
+| `PROMPT_CONTEXT_INPUT_TASK`         | Input task for context prompts                   |
+| `PG_VECTOR_HOST`                    | PGVector database host                           |
+| `PG_VECTOR_PORT`                    | PGVector database port                           |
+| `PG_VECTOR_DATABASE`                | PGVector database name                           |
+| `PG_VECTOR_COLLECTION`              | PGVector collection name                         |
+| `PG_VECTOR_USER`                    | PGVector database user                           |
+| `PG_VECTOR_PASSWORD`                | PGVector database password                       |
