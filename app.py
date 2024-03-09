@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from langchain_google_vertexai import VertexAI
 from dotenv import load_dotenv
-from vertex_ai_tools import predict_no_context, predict_with_context, design_prompt
+from vertex_ai_tools import predict_with_text_model, predict_with_chat_model, design_prompt
 import os
 
 load_dotenv()
@@ -13,7 +13,7 @@ def no_context():
     data = request.get_json()
     query = data['query']
 
-    prediction = predict_no_context(query)
+    prediction = predict_with_text_model(query)
 
     return prediction
     
@@ -23,7 +23,7 @@ def with_context():
     data = request.get_json()
     query = data['query']
 
-    prediction = predict_with_context(query)
+    prediction = predict_with_chat_model(query)
 
     return prediction
 
@@ -34,7 +34,7 @@ def ask_student_office():
     query = data['query']
 
     prompt = design_prompt(query)
-    result = predict_no_context(prompt)
+    result = predict_with_text_model(prompt)
 
     return result
 

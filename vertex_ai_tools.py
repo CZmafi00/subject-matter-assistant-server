@@ -4,7 +4,7 @@ from langchain_google_vertexai import VertexAI, VertexAIEmbeddings
 from langchain_community.vectorstores import PGVector
 from vertexai.language_models import ChatModel
 
-def predict_no_context(query):
+def predict_with_text_model(query):
     
     model_name= os.environ.get("VERTEX_AI_TEXT_MODEL")
     max_output_tokens = int(os.environ.get("VERTEX_AI_TEXT_MAX_OUTPUT_TOKENS"))
@@ -15,7 +15,7 @@ def predict_no_context(query):
 
     return {"context": query, "answer": prediction}
 
-def predict_with_context(query):
+def predict_with_chat_model(query):
     
     context = _prepare_context_for_multiple_documents(query)
 
