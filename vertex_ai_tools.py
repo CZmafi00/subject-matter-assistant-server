@@ -8,8 +8,11 @@ def predict_with_text_model(query):
     
     model_name= os.environ.get("VERTEX_AI_TEXT_MODEL")
     max_output_tokens = int(os.environ.get("VERTEX_AI_TEXT_MAX_OUTPUT_TOKENS"))
+    temperature = float(os.environ.get("VERTEX_AI_TEXT_MODEL_TEMPERATURE"))
+    top_k = int(os.environ.get("VERTEX_AI_TEXT_MODEL_TOP_K"))
+    top_p = float(os.environ.get("VERTEX_AI_TEXT_MODEL_TOP_P"))
 
-    model = VertexAI(model_name=model_name, max_output_tokens=max_output_tokens)
+    model = VertexAI(model_name=model_name, max_output_tokens=max_output_tokens, top_k=top_k, top_p=top_p, temperature=temperature)
 
     prediction = model.invoke(query)
 

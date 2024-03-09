@@ -62,6 +62,9 @@ docker compose up -d
 | `GOOGLE_PROJECT_NUMBER`             | Google Cloud Project Number                     |
 | `VERTEX_AI_TEXT_MODEL`              | Vertex AI Text Model ID                         |
 | `VERTEX_AI_TEXT_MAX_OUTPUT_TOKENS`  | Maximum number of output tokens for Text Model   |
+| `VERTEX_AI_TEXT_MODEL_TEMPERATURE`  | Temperature parameter for Text Model            |
+| `VERTEX_AI_TEXT_MODEL_TOP_K`        | Top-K parameter for Text Model                   |
+| `VERTEX_AI_TEXT_MODEL_TOP_P`        | Top-P parameter for Text Model                   |
 | `VERTEX_AI_CHAT_MODEL`              | Vertex AI Chat Model ID                         |
 | `VERTEX_AI_CHAT_MODEL_TEMPERATURE`  | Temperature parameter for Chat Model            |
 | `VERTEX_AI_CHAT_MODEL_TOP_K`        | Top-K parameter for Chat Model                   |
