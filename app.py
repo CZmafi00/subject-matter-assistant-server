@@ -12,8 +12,9 @@ def no_context():
 
     data = request.get_json()
     query = data['query']
+    prompt_template= os.environ.get("PROMPT_NO_CONTEXT_INPUT_TASK")
 
-    prediction = predict_with_text_model(query)
+    prediction = predict_with_text_model(f"{prompt_template}{query}")
 
     return prediction
     
